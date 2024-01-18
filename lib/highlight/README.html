@@ -1,0 +1,78 @@
+<h1 id="Highlight-js"><a href="#Highlight-js" class="headerlink" title="Highlight.js"></a>Highlight.js</h1><p><a href="https://travis-ci.org/highlightjs/highlight.js"><img src="https://travis-ci.org/highlightjs/highlight.js.svg?branch=master" alt="Build Status"></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/highlightjs/highlight.js.svg" alt="Greenkeeper badge"></a></p>
+<p>Highlight.js is a syntax highlighter written in JavaScript. It works in<br>the browser as well as on the server. It works with pretty much any<br>markup, doesn’t depend on any framework, and has automatic language<br>detection.</p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p>The bare minimum for using highlight.js on a web page is linking to the<br>library along with one of the styles and calling<br><a href="http://highlightjs.readthedocs.io/en/latest/api.html#inithighlightingonload"><code>initHighlightingOnLoad</code></a>:</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/styles/default.css&quot;&gt;
+&lt;script src=&quot;/path/to/highlight.pack.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;
+</code></pre>
+<p>This will find and highlight code inside of <code>&lt;pre&gt;&lt;code&gt;</code> tags; it tries<br>to detect the language automatically. If automatic detection doesn’t<br>work for you, you can specify the language in the <code>class</code> attribute:</p>
+<pre><code class="html">&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;...&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>The list of supported language classes is available in the <a href="http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html">class<br>reference</a>.  Classes can also be prefixed with either <code>language-</code> or<br><code>lang-</code>.</p>
+<p>To make arbitrary text look like code, but without highlighting, use the<br><code>plaintext</code> class:</p>
+<pre><code class="html">&lt;pre&gt;&lt;code class=&quot;plaintext&quot;&gt;...&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>To disable highlighting altogether use the <code>nohighlight</code> class:</p>
+<pre><code class="html">&lt;pre&gt;&lt;code class=&quot;nohighlight&quot;&gt;...&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<h2 id="Custom-Initialization"><a href="#Custom-Initialization" class="headerlink" title="Custom Initialization"></a>Custom Initialization</h2><p>When you need a bit more control over the initialization of<br>highlight.js, you can use the <a href="http://highlightjs.readthedocs.io/en/latest/api.html#highlightblock-block"><code>highlightBlock</code></a> and <a href="http://highlightjs.readthedocs.io/en/latest/api.html#configure-options"><code>configure</code></a><br>functions. This allows you to control <em>what</em> to highlight and <em>when</em>.</p>
+<p>Here’s an equivalent way to calling <a href="http://highlightjs.readthedocs.io/en/latest/api.html#inithighlightingonload"><code>initHighlightingOnLoad</code></a> using<br>vanilla JS:</p>
+<pre><code class="js">document.addEventListener(&#39;DOMContentLoaded&#39;, (event) =&gt; {
+  document.querySelectorAll(&#39;pre code&#39;).forEach((block) =&gt; {
+    hljs.highlightBlock(block);
+  });
+});
+</code></pre>
+<p>You can use any tags instead of <code>&lt;pre&gt;&lt;code&gt;</code> to mark up your code. If<br>you don’t use a container that preserves line breaks you will need to<br>configure highlight.js to use the <code>&lt;br&gt;</code> tag:</p>
+<pre><code class="js">hljs.configure({useBR: true});
+
+document.querySelectorAll(&#39;div.code&#39;).forEach((block) =&gt; {
+  hljs.highlightBlock(block);
+});
+</code></pre>
+<p>For other options refer to the documentation for <a href="http://highlightjs.readthedocs.io/en/latest/api.html#configure-options"><code>configure</code></a>.</p>
+<h2 id="Web-Workers"><a href="#Web-Workers" class="headerlink" title="Web Workers"></a>Web Workers</h2><p>You can run highlighting inside a web worker to avoid freezing the browser<br>window while dealing with very big chunks of code.</p>
+<p>In your main script:</p>
+<pre><code class="js">addEventListener(&#39;load&#39;, () =&gt; {
+  const code = document.querySelector(&#39;#code&#39;);
+  const worker = new Worker(&#39;worker.js&#39;);
+  worker.onmessage = (event) =&gt; { code.innerHTML = event.data; }
+  worker.postMessage(code.textContent);
+});
+</code></pre>
+<p>In worker.js:</p>
+<pre><code class="js">onmessage = (event) =&gt; {
+  importScripts(&#39;&lt;path&gt;/highlight.pack.js&#39;);
+  const result = self.hljs.highlightAuto(event.data);
+  postMessage(result.value);
+};
+</code></pre>
+<h2 id="Getting-the-Library"><a href="#Getting-the-Library" class="headerlink" title="Getting the Library"></a>Getting the Library</h2><p>You can get highlight.js as a hosted, or custom-build, browser script or<br>as a server module. Right out of the box the browser script supports<br>both AMD and CommonJS, so if you wish you can use RequireJS or<br>Browserify without having to build from source. The server module also<br>works perfectly fine with Browserify, but there is the option to use a<br>build specific to browsers rather than something meant for a server.<br>Head over to the <a href="https://highlightjs.org/download/">download page</a> for all the options.</p>
+<p><strong>Don’t link to GitHub directly.</strong> The library is not supposed to work straight<br>from the source, it requires building. If none of the pre-packaged options<br>work for you refer to the <a href="http://highlightjs.readthedocs.io/en/latest/building-testing.html">building documentation</a>.</p>
+<p><strong>The CDN-hosted package doesn’t have all the languages.</strong> Otherwise it’d be<br>too big. If you don’t see the language you need in the <a href="https://highlightjs.org/download/">“Common” section</a>,<br>it can be added manually:</p>
+<pre><code class="html">&lt;script
+ charset=&quot;UTF-8&quot;
+ src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p><strong>On Almond.</strong> You need to use the optimizer to give the module a name. For<br>example:</p>
+<pre><code class="bash">r.js -o name=hljs paths.hljs=/path/to/highlight out=highlight.js
+</code></pre>
+<h3 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h3><p>You can import Highlight.js as a CommonJS-module:</p>
+<pre><code class="bash">npm install highlight.js --save
+</code></pre>
+<p>In your application:</p>
+<pre><code class="js">import hljs from &#39;highlight.js&#39;;
+</code></pre>
+<p>The default import imports all languages! Therefore it is likely to be more efficient to import only the library and the languages you need:</p>
+<pre><code class="js">import hljs from &#39;highlight.js/lib/highlight&#39;;
+import javascript from &#39;highlight.js/lib/languages/javascript&#39;;
+hljs.registerLanguage(&#39;javascript&#39;, javascript);
+</code></pre>
+<p>To set the syntax highlighting style, if your build tool processes CSS from your JavaScript entry point, you can import the stylesheet directly into your CommonJS-module:</p>
+<pre><code class="js">import hljs from &#39;highlight.js/lib/highlight&#39;;
+import &#39;highlight.js/styles/github.css&#39;;
+</code></pre>
+<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>Highlight.js is released under the BSD License. See <a href="https://github.com/highlightjs/highlight.js/blob/master/LICENSE">LICENSE</a> file<br>for details.</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p>The official site for the library is at <a href="https://highlightjs.org/">https://highlightjs.org/</a>.</p>
+<p>Further in-depth documentation for the API and other topics is at<br><a href="http://highlightjs.readthedocs.io/">http://highlightjs.readthedocs.io/</a>.</p>
+<p>Authors and contributors are listed in the <a href="https://github.com/highlightjs/highlight.js/blob/master/AUTHORS.en.txt">AUTHORS.en.txt</a> file.</p>
