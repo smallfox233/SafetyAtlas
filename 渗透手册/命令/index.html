@@ -1224,6 +1224,89 @@
 <td>如果需要将流量转发到burp时，可以使用该参数</td>
 </tr>
 </tbody></table>
+<h2 id="volatility"><a href="#volatility" class="headerlink" title="volatility"></a>volatility</h2><p>以下均为volatility2版本的命令</p>
+<table>
+<thead>
+<tr>
+<th>作用</th>
+<th>参数</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指定内存</td>
+<td>-f</td>
+<td>vol2.py -f xxx.raw</td>
+<td></td>
+</tr>
+<tr>
+<td>查询内存信息</td>
+<td>imageinfo</td>
+<td>vol2.py -f xxx.raw imageinfo</td>
+<td></td>
+</tr>
+<tr>
+<td>指定系统类型</td>
+<td>–profile</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64</td>
+<td>可通过imageinfo查询可使用的profile值</td>
+</tr>
+<tr>
+<td>查询用户名</td>
+<td><code>printkey   -K  &quot;SAM\Domains\Account\Users\Names&quot;</code></td>
+<td><strong>vol2.py -f xxx.raw printkey   -K  “SAM\Domains\Account\Users\Names”</strong></td>
+<td>针对windows</td>
+</tr>
+<tr>
+<td>查询hashdump</td>
+<td>hashdump</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 hashdump</td>
+<td></td>
+</tr>
+<tr>
+<td>查询密码</td>
+<td>lsadump</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 lsadump</td>
+<td>通过lsass.exe进程dump密码</td>
+</tr>
+<tr>
+<td>查询cmd命令情况</td>
+<td>cmdline</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 cmdline</td>
+<td></td>
+</tr>
+<tr>
+<td>查看网络连接</td>
+<td>netscan</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 netscan</td>
+<td></td>
+</tr>
+<tr>
+<td>导出文件</td>
+<td>dumpfiles -Q 虚拟地址 -D 保存位置</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 -Q 0x000000007f142f20 -D “D:&#x2F;123”</td>
+<td>可通过filescan查询虚拟地址</td>
+</tr>
+<tr>
+<td>查询文件信息</td>
+<td>filescan</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 filescan</td>
+<td></td>
+</tr>
+<tr>
+<td>查询缓存注册表</td>
+<td>hivelist</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 hivelist</td>
+<td></td>
+</tr>
+<tr>
+<td>查询进程</td>
+<td>pslist</td>
+<td>vol2.py -f xxx.raw –profile&#x3D;Win7SP1x64 pslist</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id="xray"><a href="#xray" class="headerlink" title="xray"></a>xray</h2><table>
 <thead>
 <tr>
@@ -2043,7 +2126,7 @@
 </tr>
 <tr>
 <td><strong>显示wifi密码等配置信息</strong></td>
-<td>netsh wlan show profiles wifi名称</td>
+<td>netsh wlan show profiles wifi名称 key&#x3D;clear</td>
 <td></td>
 </tr>
 <tr>
